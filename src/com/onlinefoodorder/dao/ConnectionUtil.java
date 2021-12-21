@@ -11,7 +11,6 @@ public class ConnectionUtil
 	public static Connection getDbConnection()
 	{
 		Connection con = null;
-		
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";

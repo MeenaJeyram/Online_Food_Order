@@ -14,9 +14,10 @@ public class TestMain {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("\t Welcome to Online Food Order ");
-		System.out.println("\n1.Register the user\n2. User Login Or Admin Login \n3.User Profile update\n4. Amin Process \n5. food items\nEnter your choice");
+		System.out.println("\n1. Register the user\n2. User Login Or Admin Login \n3. User process\n4. Amin Process \n5. food items\nEnter your choice");
 		int userchoice1 = Integer.parseInt(input.nextLine());
-		UserDao userDao = null;
+		UserDao userDao = new UserDao();
+		RestaurantdetailsDao restaurantdetailDao = new RestaurantdetailsDao();
 		FoodItemsDao fooditem = new FoodItemsDao();
 		int flag = 0;
 
@@ -123,18 +124,10 @@ public class TestMain {
 
 				if (validAdmin != null) {									//Admin Login
 					System.out.println("Welcome admin");
-					System.out.println(
-							"\n1.View Users\n2.Add Restaurant Details\n3.Delete user\n4. Delete Restaurant\n5. Edit Restaurant\n. Enter your choice");
+					System.out.println("\n1.Add Restaurant Details & food details\n2. Exit\n Enter your choice");
 					int userchoice2 = Integer.parseInt(input.nextLine());
 					switch (userchoice2) {
-					case 1:
-						UserDao userdao = new UserDao();
-						List<User> userList = userdao.viewUser();
-						for (int i = 0; i < userList.size(); i++) {
-							System.out.println(userList.get(i));
-						}
-						break;
-					case 2:													//Restaurant details
+					case 1:													//Restaurant details
 						System.out.print("Restaurant name : ");						
 						String restaurant_name = input.nextLine();
 						do {
@@ -179,10 +172,11 @@ public class TestMain {
 								break;
 							} else {
 								System.out.print("Enter valid City name : ");
-								restaurant_pincode = input.nextLine();
+								restaurant_pincode=input.nextLine();
 								flag = 1;
 							}
 						} while (flag == 1);
+						int pincode = Integer.parseInt(restaurant_pincode);
 						System.out.print("Restaurant landline number : ");
 						String restaurant_landline_number = input.nextLine();
 						do {
@@ -244,24 +238,25 @@ public class TestMain {
 								flag = 1;
 							}
 						} while (flag == 1);
-						RestaurantDetails restaurantdetail = new RestaurantDetails(restaurant_name, area, city, pincode, restaurant_landline_no,
-								owner_name, operational_hours, email, password);
-//					case 3:	
-//						System.out.print("Enter the food Details");
-//						System.out.print("food id : ");
-//						int food_id = Integer.parseInt(input.nextLine());
-//						System.out.print("Cuisine name : ");
-//						String cuisine_name = input.nextLine();
-//						System.out.print("Food name : ");
-//						String food_name = input.nextLine();
-//						System.out.print("Description : ");
-//						String description = input.nextLine();
-//						System.out.println("Price : ");
-//						double price = input.nextDouble();
-//						fooditem = new FoodItemsDao();
-//						
-//						FoodItem food = new FoodItem(food_id, cuisine_name, food_name, description, price);
-//						fooditem.insertFoodItems(food);	
+						RestaurantDetails restaurant = new RestaurantDetails(restaurant_name, area, city, pincode, restaurant_landline_no, owner_name, operational_hours, email, password);
+						restaurantdetailDao = new RestaurantdetailsDao();
+						restaurantdetailDao.insertRestaurantDetails(restaurant);
+
+						System.out.print("Enter the food Details");
+						System.out.print("restaurant id : ");
+						int food_id = Integer.parseInt(input.nextLine());
+						System.out.print("food name : ");
+						String food_name = input.nextLine();
+						System.out.print("Cuisine name : ");
+						String cuisine_name = input.nextLine();
+						System.out.print("Description : ");
+						String description = input.nextLine();
+						System.out.println("Price : ");
+						double price = input.nextDouble();
+						fooditem = new FoodItemsDao();
+						
+						FoodItems food = new FoodItems(food_id, cuisine_name, food_name, description, price);
+						fooditem.insertFoodItems(food);	
 					}
 					break;
 				} else if (currentUser != null) {
@@ -269,14 +264,16 @@ public class TestMain {
 					flag = 1;
 				} else
 					flag = 0;
+					break;
 			} while (flag == 0);
 			break;
 
-		case 3:																	// User profile Update & Delete
-			System.out.println("\n1.Update\n2.Delete");
+		case 3:		
+			userDao = new UserDao();													// User profile Update & Delete
+			System.out.println("\n1.Update\n2.Delete\n3.view users");
 			int userchoice2 = Integer.parseInt(input.nextLine());
 			switch (userchoice2) {
-			case 1: // user
+			case 1: 																		// user
 				System.out.print("Enter the email address to update password :");
 				email_address = input.nextLine();
 				System.out.print("Enter Password :");
@@ -288,25 +285,33 @@ public class TestMain {
 				email_address = input.nextLine();
 				userDao.userProfileDelete(email_address);
 				break;
+			case 3:																		//Admin view the user
+				UserDao userDao1 = new UserDao();
+				List<User> userList = userDao1.viewUser();
+				for(int i=0; i<userList.size();i++)
+				{
+					System.out.println(userList.get(i));
+				}
+				break;
+			
 			}
 			break;
 		case 4:
-			System.out.println("\n1. delete restaurant\n2. update restaurant\n3. delete the user\n4. view all users"); //Admin 
+			System.out.println("\n1. delete restaurant\n2. update restaurant details\n3. delete the user\n4. view all users"); //Admin 
 			int userchoice3 = Integer.parseInt(input.nextLine());
 			switch(userchoice3)
 			{	
 			case 1:
-				System.out.println("Enter the restaurant to delete");					//Admin delete the restaurant
+				System.out.println("Enter the restaurant name to delete");					//Admin delete the restaurant
 				String restaurant_name = input.nextLine();
-				restaurantdetail.deleteRestaurant(restaurant_name);
+				restaurantdetailDao.deleteRestaurant(restaurant_name);
 				break;
 			case 2:
-				System.out.print("Enter the email address to update password :");		//Admin update the restaurant details
+				System.out.print("Enter the restaurant email address to update password :"); //Admin update the restaurant details
 				String email = input.nextLine();
 				System.out.print("Enter Password :");
 				password = input.nextLine();
-				RestaurantdetailsDao restaurantdetails = new RestaurantdetailsDao();
-				restaurantdetails.restaurantUpdate(email, password);
+				restaurantdetailDao.restaurantUpdate(email, password);
 				break;
 			case 3:
 				System.out.println("Enter the emailaddress to delete the user ");		//Admin delete the user
@@ -322,6 +327,7 @@ public class TestMain {
 				}
 				break;
 			}
+			break;
 		case 5:
 
 			System.out.println("\n1.Show Food Items\n2.Show Orders\n3.Update Order\n4.Cancel Order");
@@ -329,7 +335,7 @@ public class TestMain {
 			switch (userChoice) {
 			case 1:
 				FoodItemsDao foodDao = new FoodItemsDao();
-				List<FoodItem> FoodItems = foodDao.showFoodItems();
+				List<FoodItems> FoodItems = foodDao.showFoodItems();
 				for (int i = 0; i < FoodItems.size(); i++) {
 					System.out.println(FoodItems.get(i));
 				}

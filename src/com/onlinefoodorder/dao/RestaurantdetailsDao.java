@@ -39,11 +39,10 @@ public class RestaurantdetailsDao
 	{
 		String updateQuery = "update restaurant_details set password=? where email=?";
 		Connection con = ConnectionUtil.getDbConnection();
-		System.out.println("Successfully Connected");
 		try {
 			PreparedStatement p1 = con.prepareStatement(updateQuery);
 			p1.setString(2, email);
-			p1.setString(2, password);
+			p1.setString(1, password);
 			int i = p1.executeUpdate();
 			System.out.println(i+" restaurant details updated");
 			p1.close();
@@ -56,7 +55,6 @@ public class RestaurantdetailsDao
 	{
 		String deleteQuery = "delete from restaurant_details where restaurant_name=?";
 		Connection con = ConnectionUtil.getDbConnection();
-		System.out.println("Successfully Connected");
 		try {
 			PreparedStatement p1 = con.prepareStatement(deleteQuery);
 			p1.setString(1, restaurant_name);
