@@ -2,7 +2,9 @@ package com.onlinefoodorder.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.onlinefoodorder.model.RestaurantDetails;
 
@@ -51,13 +53,13 @@ public class RestaurantdetailsDao
 			e.printStackTrace();
 		 }		
 	}
-	public void deleteRestaurant(String restaurant_name)
+	public void deleteRestaurant(String email)
 	{
-		String deleteQuery = "delete from restaurant_details where restaurant_name=?";
+		String deleteQuery = "delete from restaurant_details where email=?";
 		Connection con = ConnectionUtil.getDbConnection();
 		try {
 			PreparedStatement p1 = con.prepareStatement(deleteQuery);
-			p1.setString(1, restaurant_name);
+			p1.setString(1, email);
 			int i = p1.executeUpdate();
 			System.out.println(i+" restaurant deleted");
 			p1.close();
@@ -65,5 +67,23 @@ public class RestaurantdetailsDao
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
+	}
+	public int fintRestaurantId(String email)
+	{
+		String find_id = "select restaurant_id from restaurant_details where email='"+email+"'";
+		Connection con = ConnectionUtil.getDbConnection();
+		int foodid = 0;
+		try {
+			Statement s1 = con.createStatement();
+			ResultSet rs = s1.executeQuery(find_id);
+			if(rs.next())
+			{
+				foodid = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return foodid;
 	}
 }

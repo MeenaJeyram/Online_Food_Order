@@ -51,9 +51,9 @@ public class FoodItemsDao
 		}
 		return foodItemList;
 	}
-	public int findFoodItemId(FoodItems fooditem)
+	public int findFoodItemId(String food_name)
 	{
-		String find = "select food_id from food_items where food_name = '"+fooditem.getFood_name()+"'";
+		String find = "select item_id from food_items where food_name = '"+food_name+"'";
 		Connection con = ConnectionUtil.getDbConnection();
 		int item = 0;
 		try {
@@ -68,6 +68,25 @@ public class FoodItemsDao
 				e.printStackTrace();
 		}
 		return item;
+	}
+	public int findFoodPrice(int foodid)
+	{
+		String price ="select total_price from order_foods where item_id= '"+foodid+"'";
+		Connection con = ConnectionUtil.getDbConnection();
+		Statement s1;
+		int foodprice = 0;
+		try {
+			s1=con.createStatement();
+			ResultSet rs = s1.executeQuery(price);
+			if(rs.next())
+			{
+				foodprice = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return foodprice;			
 	}
 }
 		
