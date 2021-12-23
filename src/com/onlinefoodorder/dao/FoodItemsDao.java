@@ -71,7 +71,7 @@ public class FoodItemsDao
 	}
 	public int findFoodPrice(int foodid)
 	{
-		String price ="select total_price from order_foods where item_id= '"+foodid+"'";
+		String price ="select price from food_items where item_id= '"+foodid+"'";
 		Connection con = ConnectionUtil.getDbConnection();
 		Statement s1;
 		int foodprice = 0;

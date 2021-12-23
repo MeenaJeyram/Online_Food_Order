@@ -131,7 +131,7 @@ public class UserDao
 		}
 		return userList;
 	}
-	public static int findUserId(String email_address)
+	public int findUserId(String email_address)
 	{
 		String find_user = "select user_id from user_details where email_address = '"+email_address+"'";
 		Connection con = ConnectionUtil.getDbConnection();

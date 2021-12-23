@@ -70,8 +70,7 @@ public class FoodItems {
 		}
 		@Override
 		public String toString() {
-			return "FoodItems [restaurant_id=" + restaurant_id + ", food_name=" + food_name + ", cuisine_name="
-					+ cuisine_name + ", description=" + description + ", price=" + price + "]";
+			return String.format("%-7s%-10s%-9s%-9s%-9s", restaurant_id, food_name, cuisine_name, description, price);
 		}
 		
 		

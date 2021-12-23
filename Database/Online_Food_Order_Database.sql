@@ -26,22 +26,27 @@ CREATE TABLE restaurant_details ( restaurant_id int default n3.nextval,
                                   constraint con_restaurant_id primary key(restaurant_id), 
                                   unique(email),unique(restaurant_landline_no));
                                   
+update food_items set price=70 where item_id =1423;                                  
 CREATE TABLE food_items(restaurant_id int not null,
                         item_id int default n2.nextval, 
                         food_name varchar2(30) not null,
                         cuisine_name varchar2(30) not null,
                         description varchar2(100) not null,  
-                        price decimal not null,
+                        price number not null,
                         constraint con_item_id primary key(item_id),
                         constraint con_restaurant_id1 foreign key(restaurant_id) references restaurant_details(restaurant_id)); 
 
+alter table food_items modify price number;
+
 CREATE TABLE order_foods ( order_id int default n4.nextval, 
+                           user_id int not null,
                            item_id int not null,  
                            quantity int not null, 
                            total_price decimal not null,
                            constraint con_orderfoodsid primary key(order_id), 
+                           constraint con_userid foreign key(user_id) references user_details(user_id),
                            constraint con_orderitem_id foreign key(item_id) references food_items(item_id));
-                           
+alter table order_foods modify total_price number(10,2);                           
 
 CREATE TABLE order_details ( order_id int not null, 
                              user_id int not null, 
@@ -51,11 +56,11 @@ CREATE TABLE order_details ( order_id int not null,
                              constraint con_user_id1 foreign key(user_id) references user_details(user_id));
 
 commit;                             
-
+desc food_items;
 select * from user_details;
 select * from restaurant_details;
 select * from food_items;
 select * from order_foods;
 select * from order_details;
 
-drop table order_details cascade constraints;
+drop table order_foods cascade constraints;

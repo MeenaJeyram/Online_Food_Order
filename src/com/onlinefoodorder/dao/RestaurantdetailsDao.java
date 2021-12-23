@@ -47,7 +47,6 @@ public class RestaurantdetailsDao
 			p1.setString(1, password);
 			int i = p1.executeUpdate();
 			System.out.println(i+" restaurant details updated");
-			p1.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +61,6 @@ public class RestaurantdetailsDao
 			p1.setString(1, email);
 			int i = p1.executeUpdate();
 			System.out.println(i+" restaurant deleted");
-			p1.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,9 +70,10 @@ public class RestaurantdetailsDao
 	{
 		String find_id = "select restaurant_id from restaurant_details where email='"+email+"'";
 		Connection con = ConnectionUtil.getDbConnection();
+		Statement s1= null; 
 		int foodid = 0;
 		try {
-			Statement s1 = con.createStatement();
+			s1 = con.createStatement();
 			ResultSet rs = s1.executeQuery(find_id);
 			if(rs.next())
 			{
