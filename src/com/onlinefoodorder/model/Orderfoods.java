@@ -61,8 +61,7 @@ public class Orderfoods {
 	}
 	@Override
 	public String toString() {
-		return "Orderfoods [user_id=" + user_id + ", item_id=" + item_id + ", quantity=" + quantity + ", total_price="
-				+ total_price + "]";
+		return "user_id = " + user_id + " item_id = " + item_id + " quantity = " + quantity + " total_price = " + total_price;
 	}
 	
 }

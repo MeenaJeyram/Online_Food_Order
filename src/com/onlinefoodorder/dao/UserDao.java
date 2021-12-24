@@ -95,7 +95,7 @@ public class UserDao
 	
 	public User admin(String email_address,String password)
 	{
-		String adminQuery="select * from user_details where role='admin' and email_address='"+email_address+"'and password='"+password+"'";
+		String adminQuery="select * from user_details where role='Admin' and email_address='"+email_address+"'and password='"+password+"'";
 		
 		Connection con=ConnectionUtil.getDbConnection();
 		User user=null;
@@ -148,6 +148,18 @@ public class UserDao
 			e.printStackTrace();
 		}
 		return userId;
+	}
+	public int walletbal(int id) throws Exception 
+	{
+		Connection con = ConnectionUtil.getDbConnection();
+		String query = "select wallet from user_details where user_id = ?";
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1, id);
+		ResultSet rs = statement.executeQuery();
+		while(rs.next()) {
+				return rs.getInt(1);
+		}
+		return -1;
 	}
 }
 

@@ -129,10 +129,10 @@ public class TestMain {
 			do {
 				user = userDao.validateUser(email_address, password);
 				User validAdmin = userDao.admin(email_address, password);
-
+				
 				if (validAdmin != null) {											//Admin Login
 					System.out.println("Welcome admin");
-					System.out.println("\n1. view User\n2. Find userId \n3. Delete User\n4. Add Restaurant Details \n5. Add food details\n6. Delete restaurant\n7. Update Restaurant Details \n8. Find foodid");													
+					System.out.println("\n1. view User\n2. Find userId \n3. Delete User\n4. Add Restaurant Details \n5. Add food details\n6. Delete restaurant\n7. Update Restaurant Details \n8. Find foodid \n9.View Orders");													
 					int adminChoice = Integer.parseInt(input.nextLine());
 					switch(adminChoice)
 					{
@@ -275,7 +275,7 @@ public class TestMain {
 						System.out.println("-- Register the food details in the specific restaurant --");
 						System.out.print("enter restauant email to find restaurant id : ");		//restaurant food details
 						email = input.nextLine();
-						int restaurantid = restaurantdetailDao.fintRestaurantId(email);
+						int restaurantid = restaurantdetailDao.findRestaurantId(email);
 						System.out.println("restaurant id : " +restaurantid);
 						
 						System.out.println("Enter the food Details");
@@ -299,7 +299,6 @@ public class TestMain {
 						restaurantdetailDao.deleteRestaurant(emailid);
 						break;
 					case 7:		
-						
 						System.out.print("Enter the restaurant email address to update password :"); //Admin update the restaurant details
 						email = input.nextLine();
 						System.out.print("Enter Password :");
@@ -313,11 +312,20 @@ public class TestMain {
 						int item = fooditem.findFoodItemId(food_name);
 						System.out.println("item id = " +item);
 						break;
+					case 9:																	//view orders
+						orderfoodsdao = new OrderFoodsDao();
+						System.out.println("view order");
+						List<Orderfoods> orderlist = orderfoodsdao.viewOrderFoods();
+						for(int i=0;i<orderlist.size();i++)
+						{
+							System.out.println(orderlist.get(i));
+						}
+						break;
 					}	
 				} else if (user != null) {												
 					System.out.println("Welcome\t" + user.getUser_name());
 					flag = 1;
-					System.out.println("\n1. Show Food Items\n2. User details update\n3. User account delete");
+					System.out.println("\n1. Show Food Items\n. 2 Show food Item by restaurant\n3. User details update\n4. User account delete");
 					int userChoice = Integer.parseInt(input.nextLine());
 					switch (userChoice) {
 					case 1:
@@ -326,12 +334,12 @@ public class TestMain {
 						for (int i = 0; i < FoodItems.size(); i++) {
 							System.out.println(FoodItems.get(i));
 						}
-						System.out.println("\n1.Orders foods\n2.view Orders \n3.Update Order\n3.Cancel Order");
+						System.out.println("\n1.Orders foods\n\n2.Update Order\n3.Cancel Order");
 						int orderChoice = Integer.parseInt(input.nextLine());
 						switch(orderChoice)
 						{
 						case 1:														//orders foods
-							//user = new User();
+																					//user = new User();
 							orderfoodsdao = new OrderFoodsDao();
 							orderfood = new Orderfoods();
 							fooditem = new FoodItemsDao();
@@ -358,17 +366,9 @@ public class TestMain {
 							orderfood = new Orderfoods(userid, foodid, quantity, total_price);
 							orderfoodsdao.insertOrderFoods(orderfood);
 							break;
-						case 2:																	//view orders
-							orderfoodsdao = new OrderFoodsDao();
-							System.out.println("view order");
-							List<Orderfoods> orderlist = orderfoodsdao.viewOrderFoods();
-							for(int i=0;i<orderlist.size();i++)
-							{
-								System.out.println(orderlist.get(i));
-							}
-						case 3:
-							orderfoodsdao = new OrderFoodsDao();
-							System.out.println("Enter the item id to update the order");
+						case 2:
+							System.out.println("Enter the restaurant name to show foods");
+							
 							
 						}
 						break;
@@ -393,14 +393,3 @@ public class TestMain {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

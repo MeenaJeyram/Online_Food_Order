@@ -71,7 +71,6 @@ public class User
 	}
 	@Override
 	public String toString() {
-		return "User [name=" + user_name + ", phone_no=" + phone_no + ", address=" + address + ", email_address="
-				+ email_address + ", password=" + password + "]";
+		return String.format("\nUser name : " +user_name+ "\nPhone Number : " +phone_no+ "\nAddress : " +address+ "\nEmail Address : " +email_address+"\nPassword : " +password+ "\n");
 	}
 }

@@ -16,6 +16,7 @@ public class OrderFoodsDao
 	public void insertOrderFoods(Orderfoods order)
 	{
 		String insert = "insert into order_foods(user_id, item_id, quantity, total_price) values(?,?,?,?)";
+		String query = "commit";
 		Connection con = ConnectionUtil.getDbConnection();
 		try {
 			PreparedStatement p1 = con.prepareStatement(insert);
@@ -24,6 +25,7 @@ public class OrderFoodsDao
 			p1.setInt(3, order.getQuantity());
 			p1.setDouble(4, order.getTotal_price());
 			p1.executeUpdate();
+			p1.executeUpdate(query);
 			System.out.println("Successfully inserted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

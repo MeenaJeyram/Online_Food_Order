@@ -51,6 +51,29 @@ public class FoodItemsDao
 		}
 		return foodItemList;
 	}
+	public List<FoodItems> findfoodNames(int r_id)
+	{
+		List<FoodItems> foodname = new ArrayList<FoodItems>();
+		String query = "select food_name, cuisine_name, description where restaurant_id ='"+r_id+"'";
+		Connection con = ConnectionUtil.getDbConnection();
+		Statement s1;
+		int restaurant_id=0;
+		try {
+			s1 = con.createStatement();
+			ResultSet rs = s1.executeQuery(query);
+			
+			if(rs.next())
+			{
+				rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return restaurant_id;
+		
+	}
 	public int findFoodItemId(String food_name)
 	{
 		String find = "select item_id from food_items where food_name = '"+food_name+"'";
@@ -88,6 +111,7 @@ public class FoodItemsDao
 		}
 		return foodprice;			
 	}
+	
 }
 		
 		

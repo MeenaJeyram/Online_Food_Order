@@ -66,23 +66,43 @@ public class RestaurantdetailsDao
 			e.printStackTrace();
 		}	
 	}
-	public int fintRestaurantId(String email)
+	public int findRestaurantId(String email)
 	{
 		String find_id = "select restaurant_id from restaurant_details where email='"+email+"'";
 		Connection con = ConnectionUtil.getDbConnection();
 		Statement s1= null; 
-		int foodid = 0;
+		int restaurantid = 0;
 		try {
 			s1 = con.createStatement();
 			ResultSet rs = s1.executeQuery(find_id);
 			if(rs.next())
 			{
-				foodid = rs.getInt(1);
+				restaurantid = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return foodid;
+		return restaurantid;
+	}
+	
+	public int findRestaurantId2(String restaurantName)
+	{
+		String findId = "select restaurant_id from restaurant_details where restaurant_name='"+restaurantName+"'";
+		Connection con = ConnectionUtil.getDbConnection();
+		int restaurantId = 0;
+		try {
+			Statement s1 = con.createStatement();
+			ResultSet rs = s1.executeQuery(findId);
+			if(rs.next())
+			{
+				restaurantId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return restaurantId;
 	}
 }
