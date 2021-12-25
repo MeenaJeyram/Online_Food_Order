@@ -15,6 +15,7 @@ CREATE TABLE user_details ( user_id int default n1.nextval,
                                 unique(email_address), unique(phone_no));                 
  
 INSERT INTO user_details(user_name, phone_no, role, address, email_address, password, wallet) values('jeyram', 9500727441, 'Admin', '153WestStreet,Melur,625106', 'jeyram@gmail.com','Jeyram1010', 0);                         
+
 CREATE TABLE restaurant_details ( restaurant_id int default n3.nextval, 
                                   restaurant_name varchar2(30) not null,
                                   area varchar2(100) not null, 
@@ -57,13 +58,16 @@ CREATE TABLE order_details ( order_id int not null,
                              constraint con_order_id1 foreign key(order_id) references order_foods(order_id),
                              constraint con_user_id1 foreign key(user_id) references user_details(user_id));
 
-update food_items set food_name='noodles', cuisine_name='chinese' where restaurant_id=1635;
+delete from user_details where user_id =1229;
 commit;                             
 desc food_items;
 select * from user_details;
 select * from restaurant_details;
 select * from food_items;
 select * from order_foods;
-select * from order_details;
 delete restaurant_details where restaurant_id = 1637;
 drop table user_details cascade constraints;
+select * from food_items where restaurant_id =1628;
+
+
+alter table order_foods add order_date timestamp default current_timestamp;

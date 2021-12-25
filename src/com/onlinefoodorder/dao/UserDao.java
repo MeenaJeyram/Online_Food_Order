@@ -149,6 +149,8 @@ public class UserDao
 		}
 		return userId;
 	}
+	
+	//get wallet balance:
 	public int walletbal(int id) throws Exception 
 	{
 		Connection con = ConnectionUtil.getDbConnection();
@@ -160,6 +162,19 @@ public class UserDao
 				return rs.getInt(1);
 		}
 		return -1;
+	}
+	
+	//update wallet balance:
+	public int updatewallet(int amount,int userid)throws Exception {
+		Connection con = ConnectionUtil.getDbConnection();
+		String query = "update user_details set wallet = ? where user_id = ?";
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1,amount);
+		statement.setInt(2, userid);
+		int res = statement.executeUpdate();
+		 statement.executeUpdate("commit");
+		return res;
+		
 	}
 }
 
