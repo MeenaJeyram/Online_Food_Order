@@ -69,5 +69,6 @@ delete restaurant_details where restaurant_id = 1637;
 drop table user_details cascade constraints;
 select * from food_items where restaurant_id =1628;
 
+delete from order_foods where user_id =1227;
 
 alter table order_foods add order_date timestamp default current_timestamp;

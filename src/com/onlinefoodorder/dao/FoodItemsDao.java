@@ -53,23 +53,22 @@ public class FoodItemsDao
 	}
 	public List<FoodItems> findfoodNames(int r_id)
 	{
-		List<FoodItems> foodname = new ArrayList<FoodItems>();
-		String query = "select * from food_items where r_id = ?";
+		List<FoodItems> foodnamelist = new ArrayList<FoodItems>();
+		String query = "select * from food_items where restaurant_id = "+r_id;
 		Connection con = ConnectionUtil.getDbConnection();
 		try {
-			Statement p1 = con.prepareStatement(query);
-			p1.setInt(1, r_id);
+			Statement p1 = con.createStatement();
 			ResultSet rs = p1.executeQuery(query);
 			while(rs.next())
 			{
-				FoodItems fooditem = new FoodItems(r_id, rs.getString(3), rs.getString(4), rs.getString(5), Double.parseDouble(rs.getString(6)));
-				foodname.add(fooditem);
+				FoodItems fooditem = new FoodItems(r_id, rs.getString(3), rs.getString(4), rs.getString(5), rs.getDouble(6));
+				foodnamelist.add(fooditem);
 			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
-		return foodname;	
+		return foodnamelist;	
 	}
 
 	public int findFoodItemId(String food_name)
